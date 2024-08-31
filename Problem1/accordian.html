@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShipGlobal - Accordion Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            height: 100vh;
+            background-image: url('ShipGlobal.png');
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            flex-direction: column; 
+            padding: 20px;
+            overflow: auto; 
+        }
+
+        .accordion {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            margin: 10px 0; 
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+        .accordion:hover {
+            transform: scale(1.02);
+        }
+        .accordion-header {
+            padding: 15px;
+            cursor: pointer;
+            background: #ff6f61;
+            color: white;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        .accordion-header:hover {
+            background: #56df81;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease, opacity 0.5s ease;
+            padding: 0 15px;
+            background: #444;
+            opacity: 0;
+        }
+        .accordion-content p {
+            margin: 10px 0;
+        }
+        .accordion-content.active {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .accordion-header {
+                font-size: 16px;
+            }
+            .accordion-content p {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .accordion-header {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .accordion-content p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="accordion">
+        <div class="accordion-header">About ShipGlobal <span>▼</span></div>
+        <div class="accordion-content">
+            <p>ShipGlobal is a leading logistics and shipping company that specializes in providing comprehensive supply chain solutions to businesses worldwide. With a strong commitment to innovation and customer service, ShipGlobal offers a wide range of services, including freight forwarding, customs clearance, warehousing, and last-mile delivery.</p>
+        </div>
+    </div>
+    <div class="accordion">
+        <div class="accordion-header">Contact <span>▼</span></div>
+        <div class="accordion-content">
+            <p>Head Office: 1404, Road No.6, Mahipalpur, New Delhi 110037, India<br>
+            Email: support@shipglobal.in | Phone: 011-42277777.</p>
+        </div>
+    </div>
+    <div class="accordion">
+        <div class="accordion-header">Know More <span>▼</span></div>
+        <div class="accordion-content">
+            <p>1. Freight Forwarding: Fast and reliable air transportation, cost-effective ocean freight, and comprehensive ground freight services.<br><br>
+            2. Customs Clearance: Documentation support and regulatory compliance.<br><br>
+            3. Warehousing Solutions: Advanced inventory management and order fulfillment.<br><br>
+            4. Last-Mile Delivery: Flexible delivery options and real-time tracking.<br><br>
+            5. Supply Chain Management: Consultative approach and technology integration.<br><br>
+            6. E-commerce Logistics: Seamless integration and returns management.<br><br>
+            7. Temperature-Controlled Shipping: Reefer containers and monitoring systems.<br><br>
+            8. Cargo Insurance: Comprehensive coverage and risk assessment.</p>
+        </div>
+    </div>
+
+    <script>
+        const headers = document.querySelectorAll('.accordion-header');
+
+        headers.forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+
+                this.classList.toggle('active');
+                const isActive = content.classList.contains('active');
+
+                
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    item.style.maxHeight = null;
+                    item.style.padding = '0';
+                    item.classList.remove('active');
+                });
+
+                
+                if (!isActive) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    content.style.padding = '15px 15px';
+                    content.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

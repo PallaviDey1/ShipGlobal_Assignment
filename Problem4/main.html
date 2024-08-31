@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('image.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(226, 105, 52, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        #scrambled-word {
+            font-size: 2em;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4ad6b3;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: #50630b;
+            color: white;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3cb08a;
+            transform: scale(1.1);
+        }
+
+        #feedback {
+            font-size: 1.2em;
+            margin-top: 10px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        #timer {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Word Scramble Game</h1>
+        <div id="game">
+            <p id="scrambled-word"></p>
+            <input type="text" id="user-input" placeholder="Type your guess here">
+            <button onclick="checkGuess()">Submit</button>
+            <button onclick="showHint()">Hint</button>
+            <p id="feedback"></p>
+            <p>Attempts: <span id="attempts">0</span></p>
+            <p id="timer">Time left: <span id="time">60</span> seconds</p>
+            <button onclick="newWord()">New Word</button>
+        </div>
+    </div>
+    <script>
+        const words = [
+            { word: "javascript", scrambled: "tpircsavaj" },
+            { word: "developer", scrambled: "repoleved" },
+            { word: "delievery", scrambled: "vederylie" },
+            { word: "transport", scrambled: "rantsoprt" },
+            { word: "shipglobal", scrambled: "gloshipbal" }
+        ];
+
+        let currentWord = {};
+        let attempts = 0;
+        let timer;
+        let timeLeft = 60;
+
+        function newWord() {
+            const randomIndex = Math.floor(Math.random() * words.length);
+            currentWord = words[randomIndex];
+            document.getElementById('scrambled-word').textContent = currentWord.scrambled;
+            document.getElementById('user-input').value = '';
+            document.getElementById('feedback').textContent = '';
+            attempts = 0;
+            document.getElementById('attempts').textContent = attempts;
+            resetTimer();
+        }
+
+        function checkGuess() {
+            const userGuess = document.getElementById('user-input').value.toLowerCase();
+            attempts++;
+            document.getElementById('attempts').textContent = attempts;
+
+            if (userGuess === currentWord.word) {
+                document.getElementById('feedback').textContent = 'Correct! Well done!';
+                clearInterval(timer);
+            } else {
+                document.getElementById('feedback').textContent = 'Incorrect guess. Try again!';
+            }
+        }
+
+        function showHint() {
+            document.getElementById('feedback').textContent = `Hint: The first letter is "${currentWord.word.charAt(0)}"`;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = 60;
+            document.getElementById('time').textContent = timeLeft;
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('time').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    document.getElementById('feedback').textContent = 'Time is up! The correct word was "' + currentWord.word + '".';
+                }
+            }, 1000);
+        }
+
+        
+        newWord();
+    </script>
+</body>
+</html>
